@@ -6,5 +6,6 @@ module org.example.currencyconverter {
 
 
     opens org.example.currencyconverter to javafx.fxml;
+    opens org.example.currencyconverter.Model to com.google.gson;
     exports org.example.currencyconverter;
 }

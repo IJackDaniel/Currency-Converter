@@ -1,14 +1,20 @@
 package org.example.currencyconverter.Model;
 
-import java.util.Date;
 import java.util.Map;
+import com.google.gson.annotations.SerializedName;
+import javafx.util.converter.DateStringConverter;
 
 public class ExchangeRate {
+    @SerializedName("base_code")
     private String base;                // Base currency
-    private Date date;                  // Date of last update
+
+    @SerializedName("time_last_update_uts")
+    private String date;
+
+    @SerializedName("conversion_rates")
     private Map<String, Double> rates;  // Pairs: Currency - Value;
 
-    public ExchangeRate(String base, Date date, Map<String, Double> rates) {
+    public ExchangeRate(String base, String date, Map<String, Double> rates) {
         this.base = base;
         this.date = date;
         this.rates = rates;
@@ -19,7 +25,7 @@ public class ExchangeRate {
         return base;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -32,7 +38,7 @@ public class ExchangeRate {
         this.base = base;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

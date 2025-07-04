@@ -6,7 +6,6 @@ import org.example.currencyconverter.Model.Currency;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CurrencyViewModel {
     private final CurrencyRepository repository;
@@ -20,9 +19,10 @@ public class CurrencyViewModel {
         ExchangeRate rates = repository.getExchangeRates(baseCurrensy);
         this.currencies.clear();
 
-        for (Map.Entry<String, Double> entry : rates.getRates().entrySet()) {
-            String currencyName = getCurrencyName(entry.getKey());
-            currencies.add(new Currency(entry.getKey(), currencyName, entry.getValue()));
+        for (String currencyCode : rates.getRates().keySet()) {
+            Double rate = rates.getRates().get(currencyCode);
+            String currencyName = getCurrencyName(currencyCode);
+            currencies.add(new Currency(currencyCode, currencyName, rate));
         }
     }
 
