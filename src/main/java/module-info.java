@@ -1,6 +1,8 @@
 module org.example.currencyconverter {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.net.http;
+    requires com.google.gson;
 
 
     opens org.example.currencyconverter to javafx.fxml;
