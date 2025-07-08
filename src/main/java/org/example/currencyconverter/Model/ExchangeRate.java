@@ -20,6 +20,10 @@ public class ExchangeRate {
         this.rates = rates;
     }
 
+    public double evaluate(double value, String requiredCurrency) {
+        return value * rates.get(requiredCurrency);
+    }
+
     // Getters
     public String getBase() {
         return base;
@@ -45,4 +49,6 @@ public class ExchangeRate {
     public void setRates(Map<String, Double> rates) {
         this.rates = rates;
     }
+
+
 }
