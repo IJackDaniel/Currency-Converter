@@ -1,11 +1,25 @@
 package org.example.currencyconverter.View;
 
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.example.currencyconverter.ViewModel.CurrencyViewModel;
-import org.example.currencyconverter.Repository.CurrencyRepository;
 import java.util.Scanner;
 
 public class View {
-    public static void main(String[] args) {
+    private final CurrencyViewModel viewModel;
+
+    public View (Stage stage, CurrencyViewModel viewModel) {
+        this.viewModel = viewModel;
+        setupUI(stage);
+    }
+
+    private void setupUI(Stage stage) {
+        TextField baseCurrency = new TextField()
+    }
+}
+
+/*
+public static void main(String[] args) {
         CurrencyRepository repository = new CurrencyRepository();
         CurrencyViewModel viewModel = new CurrencyViewModel(repository);
         Scanner scanner = new Scanner(System.in);
@@ -32,4 +46,4 @@ public class View {
             scanner.close();
         }
     }
-}
+ */

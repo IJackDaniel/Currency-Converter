@@ -17,11 +17,14 @@ public class ExchangeRate {
     private double value;
     private String requiredCurrency;
 
-    public ExchangeRate(String base, String date, Map<String, Double> rates) {
-        this.base = base;
-        this.date = date;
-        this.rates = rates;
+//    public ExchangeRate(String base, String date, Map<String, Double> rates) {
+    public ExchangeRate() {
+//        this.base = base;
+//        this.date = date;
+//        this.rates = rates;
         this.value = 0;
+        this.base = "RUB";
+        this.requiredCurrency = "";
     }
 
     public double evaluate() {
