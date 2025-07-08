@@ -16,14 +16,14 @@ public class CurrencyViewModel {
     private ExchangeRate model;
     private List<Currency> currencies = new ArrayList<>();
 
-    private final DoubleProperty value = new SimpleDoubleProperty();
+    private final StringProperty value = new SimpleStringProperty();
     private final StringProperty baseCurrency = new SimpleStringProperty();
     private final StringProperty requiredCurrency = new SimpleStringProperty();
 
     public CurrencyViewModel(CurrencyRepository repository, ExchangeRate model) {
         this.repository = repository;
         this.model = model;
-        value.set(model.getValue());
+        value.set(String.valueOf(model.getValue()));
         baseCurrency.set(model.getBase());
         requiredCurrency.set(model.getRequiredCurrency());
     }
@@ -40,7 +40,7 @@ public class CurrencyViewModel {
     }
 
     // Getters for properties
-    public DoubleProperty valueProperty() {
+    public StringProperty valueProperty() {
         return value;
     }
 
