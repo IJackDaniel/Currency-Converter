@@ -1,5 +1,9 @@
 package org.example.currencyconverter.ViewModel;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.example.currencyconverter.Model.ExchangeRate;
 import org.example.currencyconverter.Repository.CurrencyRepository;
 import org.example.currencyconverter.Model.Currency;
@@ -9,25 +13,43 @@ import java.util.List;
 
 public class CurrencyViewModel {
     private final CurrencyRepository repository;
+    private ExchangeRate model;
     private List<Currency> currencies = new ArrayList<>();
 
-    public CurrencyViewModel(CurrencyRepository repository) {
+    private final DoubleProperty value = new SimpleDoubleProperty();
+    private final StringProperty baseCurrency = new SimpleStringProperty();
+    private final StringProperty requiredCurrency = new SimpleStringProperty();
+
+    public CurrencyViewModel(CurrencyRepository repository, ExchangeRate model) {
         this.repository = repository;
+        this.model = model;
+        value.set(model.getValue());
+        baseCurrency.set(model.getBase());
+        requiredCurrency.set(model.getRequiredCurrency());
     }
 
-    public void loadExchangeRates(String baseCurrensy) throws Exception {
-        ExchangeRate rates = repository.getExchangeRates(baseCurrensy);
+    public void loadExchangeRates() throws Exception {
+        model = repository.getExchangeRates(baseCurrency.get());
         this.currencies.clear();
 
-        for (String currencyCode : rates.getRates().keySet()) {
-            Double rate = rates.getRates().get(currencyCode);
+        for (String currencyCode : model.getRates().keySet()) {
+            Double rate = model.getRates().get(currencyCode);
             String currencyName = getCurrencyName(currencyCode);
             currencies.add(new Currency(currencyCode, currencyName, rate));
         }
     }
 
-    public List<Currency> getCurrencies() {
-        return new ArrayList<>(currencies);
+    // Getters for properties
+    public DoubleProperty valueProperty() {
+        return value;
+    }
+
+    public StringProperty baseCurrencyProperty() {
+        return baseCurrency;
+    }
+
+    public StringProperty requiredCurrencyProperty() {
+        return requiredCurrency;
     }
 
     private String getCurrencyName(String code) {

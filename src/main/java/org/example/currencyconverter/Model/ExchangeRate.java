@@ -14,13 +14,17 @@ public class ExchangeRate {
     @SerializedName("conversion_rates")
     private Map<String, Double> rates;  // Pairs: Currency - Value;
 
+    private double value;
+    private String requiredCurrency;
+
     public ExchangeRate(String base, String date, Map<String, Double> rates) {
         this.base = base;
         this.date = date;
         this.rates = rates;
+        this.value = 0;
     }
 
-    public double evaluate(double value, String requiredCurrency) {
+    public double evaluate() {
         return value * rates.get(requiredCurrency);
     }
 
@@ -37,6 +41,14 @@ public class ExchangeRate {
         return rates;
     }
 
+    public double getValue() {
+        return value;
+    }
+
+    public String getRequiredCurrency() {
+        return requiredCurrency;
+    }
+
     // Setters
     public void setBase(String base) {
         this.base = base;
@@ -50,5 +62,11 @@ public class ExchangeRate {
         this.rates = rates;
     }
 
+    public void setValue(double value) {
+        this.value = value;
+    }
 
+    public void setRequiredCurrency(String requiredCurrency) {
+        this.requiredCurrency = requiredCurrency;
+    }
 }
