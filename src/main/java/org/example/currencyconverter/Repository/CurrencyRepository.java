@@ -1,6 +1,8 @@
 package org.example.currencyconverter.Repository;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.example.currencyconverter.Model.ExchangeRate;
 
 import java.net.URI;
@@ -8,12 +10,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CurrencyRepository {
     private static final String API_KEY = "92339e4cf8297d94e8179f56";
     private static final String BASE_URL = "https://v6.exchangerate-api.com/v6/";
 
-    public ExchangeRate getExchangeRates(String baseCurrency) throws Exception {
+    public Map<String, Double> getExchangeRates(String baseCurrency) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + API_KEY + "/latest/" + baseCurrency))
@@ -26,7 +30,16 @@ public class CurrencyRepository {
             throw new RuntimeException("API request failed with code: " + response.statusCode());
         }
 
-        return new Gson().fromJson(response.body(), ExchangeRate.class);
+        // Парсим JSON и извлекаем только rates
+        JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+        JsonObject ratesObject = jsonObject.getAsJsonObject("conversion_rates");
+
+        Map<String, Double> rates = new HashMap<>();
+        ratesObject.entrySet().forEach(entry -> {
+            rates.put(entry.getKey(), entry.getValue().getAsDouble());
+        });
+
+        return rates;
     }
 
 }

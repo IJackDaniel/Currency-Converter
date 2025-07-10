@@ -16,19 +16,28 @@ public class ExchangeRate {
 
     private double value;
     private String requiredCurrency;
+    private double result;
 
-//    public ExchangeRate(String base, String date, Map<String, Double> rates) {
-    public ExchangeRate() {
-//        this.base = base;
-//        this.date = date;
-//        this.rates = rates;
+    public ExchangeRate(String base, String date, Map<String, Double> rates) {
+//    public ExchangeRate() {
+        this.base = base;
+        this.date = date;
+        this.rates = rates;
         this.value = 0;
         this.base = "RUB";
-        this.requiredCurrency = "";
+        this.requiredCurrency = "EUR";
+        this.result = 0;
     }
 
-    public double evaluate() {
-        return value * rates.get(requiredCurrency);
+    public ExchangeRate() {
+        this.value = 0;
+        this.base = "RUB";
+        this.requiredCurrency = "EUR";
+        this.result = 0;
+    }
+
+    public void evaluate() {
+        this.result = value * rates.get(requiredCurrency);
     }
 
     // Getters
@@ -50,6 +59,10 @@ public class ExchangeRate {
 
     public String getRequiredCurrency() {
         return requiredCurrency;
+    }
+
+    public double getResult() {
+        return result;
     }
 
     // Setters

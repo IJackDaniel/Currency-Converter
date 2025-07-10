@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.currencyconverter.ViewModel.CurrencyViewModel;
-import java.util.Scanner;
 
 public class View {
     private final CurrencyViewModel viewModel;
@@ -25,29 +24,6 @@ public class View {
         setupUI(stage);
     }
 
-//    private void setupUI(Stage stage) {
-//        TextField baseCurrency = new TextField();
-//        TextField value = new TextField();
-//        TextField requiredCurrency = new TextField();
-//
-//        baseCurrency.textProperty().bindBidirectional(viewModel.baseCurrencyProperty());
-//        value.textProperty().bindBidirectional(viewModel.valueProperty());
-//        requiredCurrency.textProperty().bindBidirectional(viewModel.requiredCurrencyProperty());
-//
-//        Label resultField = new Label("");
-//        resultField.setStyle("-fx-background-color: blue");
-//
-//        Button estimateButton = new Button("Estimate!");
-//
-//        HBox hBox = new HBox(10, baseCurrency, value, requiredCurrency);
-//
-//
-//        VBox root = new VBox(10, hBox, resultField, estimateButton);
-//
-//        stage.setScene(new Scene(root, 300, 300));
-//        stage.setTitle("Currency Converter");
-//        stage.show();
-//    }
     private void setupUI(Stage stage) {
         // Create UI elements
         Label titleLabel = new Label("Currency Converter");
@@ -58,20 +34,18 @@ public class View {
         TextField baseCurrencyField = new TextField();
         baseCurrencyField.setPromptText("e.g. USD");
         baseCurrencyField.setMaxWidth(100);
+        baseCurrencyField.textProperty().bindBidirectional(viewModel.baseCurrencyProperty());
 
         Label amountLabel = new Label("Amount:");
         TextField amountField = new TextField();
         amountField.setPromptText("e.g. 100");
         amountField.setMaxWidth(100);
+        amountField.textProperty().bindBidirectional(viewModel.valueProperty());
 
         Label targetCurrencyLabel = new Label("Target Currency:");
         TextField targetCurrencyField = new TextField();
         targetCurrencyField.setPromptText("e.g. EUR");
         targetCurrencyField.setMaxWidth(100);
-
-        // Bind properties
-        baseCurrencyField.textProperty().bindBidirectional(viewModel.baseCurrencyProperty());
-        amountField.textProperty().bindBidirectional(viewModel.valueProperty());
         targetCurrencyField.textProperty().bindBidirectional(viewModel.requiredCurrencyProperty());
 
         // Result display
@@ -81,11 +55,24 @@ public class View {
         resultLabel.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px; -fx-border-color: #ccc; -fx-border-width: 1px;");
         resultLabel.setMaxWidth(Double.MAX_VALUE);
         resultLabel.setAlignment(Pos.CENTER);
+        resultLabel.textProperty().bind(viewModel.resultProperty());
 
         // Button
         Button convertButton = new Button("Convert");
         convertButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;");
         convertButton.setMinWidth(150);
+        convertButton.setOnAction(e -> {
+            System.out.println("1");
+            viewModel.printAllFromModelForDebug();
+            try {
+                viewModel.loadExchangeRates();
+                viewModel.solve();
+            } catch (Exception ex) {
+                resultLabel.setText("Error: " + ex.getMessage());
+            }
+            System.out.println("2");
+            viewModel.printAllFromModelForDebug();
+        });
 
         // Layout
         GridPane inputGrid = new GridPane();
@@ -114,33 +101,3 @@ public class View {
         stage.show();
     }
 }
-
-/*
-public static void main(String[] args) {
-        CurrencyRepository repository = new CurrencyRepository();
-        CurrencyViewModel viewModel = new CurrencyViewModel(repository);
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Currency Exchange Rates App");
-        System.out.print("Enter base currency (e.g. USD): ");
-        String baseCurrency = scanner.nextLine().toUpperCase();
-
-        try {
-            viewModel.loadExchangeRates(baseCurrency);
-
-            System.out.println("\nAvailable currencies:");
-            viewModel.getCurrencies().forEach(currency -> {
-                System.out.printf("1 %s = %.4f %s (%s)%n",
-                        baseCurrency,
-                        currency.getRate(),
-                        currency.getCode(),
-                        currency.getName());
-            });
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            scanner.close();
-        }
-    }
- */
