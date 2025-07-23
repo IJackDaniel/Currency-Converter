@@ -8,8 +8,8 @@ public class ExchangeRate {
     @SerializedName("base_code")
     private String base;                // Base currency
 
-    @SerializedName("time_last_update_uts")
-    private String date;
+//    @SerializedName("time_last_update_uts")
+//    private String date;
 
     @SerializedName("conversion_rates")
     private Map<String, Double> rates;  // Pairs: Currency - Value;
@@ -34,10 +34,6 @@ public class ExchangeRate {
         return base;
     }
 
-    public String getDate() {
-        return date;
-    }
-
     public Map<String, Double> getRates() {
         return rates;
     }
@@ -57,10 +53,6 @@ public class ExchangeRate {
     // Setters
     public void setBase(String base) {
         this.base = base;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public void setRates(Map<String, Double> rates) {
