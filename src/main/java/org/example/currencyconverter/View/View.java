@@ -97,7 +97,7 @@ public class View {
 
         // Set up the stage
         stage.setScene(new Scene(root, 350, 350));
-        stage.setTitle("Currency Converter");
+        stage.setTitle("IJackDaniel's Currency Converter ");
         stage.show();
     }
 }
