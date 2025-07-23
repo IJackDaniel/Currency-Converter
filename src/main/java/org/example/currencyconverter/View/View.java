@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -15,6 +16,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.currencyconverter.ViewModel.CurrencyViewModel;
+
+import java.util.function.UnaryOperator;
 
 public class View {
     private final CurrencyViewModel viewModel;
@@ -40,6 +43,18 @@ public class View {
         TextField amountField = new TextField();
         amountField.setPromptText("e.g. 100");
         amountField.setMaxWidth(100);
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.isEmpty() || newText.equals("-") || newText.equals(".") || newText.equals("-.")) {
+                return change;
+            }
+            if (viewModel.isValidDouble(newText)) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        amountField.setTextFormatter(textFormatter);
         amountField.textProperty().bindBidirectional(viewModel.valueProperty());
 
         Label targetCurrencyLabel = new Label("Target Currency:");

@@ -88,7 +88,11 @@ public class CurrencyViewModel {
 
     public void solve() {
         model.evaluate();
-        result.set(String.valueOf(model.getResult()));
+        result.set(String.format("%.3f", model.getResult()));
+    }
+
+    public boolean isValidDouble(String input) {
+        return input.matches("-?\\d*\\.?\\d*");
     }
 
     public void printAllFromModelForDebug() {
